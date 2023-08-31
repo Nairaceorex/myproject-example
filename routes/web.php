@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,6 @@ Route::get('/', function () {
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/logout', [UserController::class, 'logout']);
 Route::post('/login', [UserController::class, 'login']);
+
+
+Route::get('/api/quotation/{date}', [QuotationController::class, 'getQuotation']);
