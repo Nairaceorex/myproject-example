@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    
     @auth
     <p>Congrat</p>
     <form action="/logout" method="POST">
@@ -15,20 +16,23 @@
     </form>
 
     <div style="border: 3px solid black;">
-        <h2>New Post</h2>
-        <form action="/create-post" method="POST">
+        <div>
             @csrf
-            <input type="text" name="title" placeholder="post title">
-            <textarea name="body" placeholder="body content..."></textarea>
-            <button>Save Post</button>
+            <label for="token">Access Token</label>
+            <input type="text" name="token" value="{{ $token }}" readonly>
+        </div>
+        <form action="/update-token" method="POST">
+            @csrf
+            <button type="submit">Update Token</button>
         </form>
+        
     </div>
 
     @else
         
     <div style="border: 3px solid black;">
         <h2>Register</h2>
-        <form action="/register" method="POST">
+        <form id="register-form" action="/register" method="POST">
             @csrf
             <input name="name" type="text" placeholder="name">
             <input name="email" type="text" placeholder="email">
