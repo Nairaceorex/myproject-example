@@ -22,6 +22,8 @@ Route::get('/', function () {
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/logout', [UserController::class, 'logout']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/update-token', [UserController::class, 'updateToken']);
+
 
 
 Route::get('/api/quotation/{date}', [QuotationController::class, 'getQuotation']);
