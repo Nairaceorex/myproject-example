@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class QuotationController extends Controller
@@ -19,8 +22,13 @@ class QuotationController extends Controller
 
         // Получение данных котировок
         $url = "http://www.cbr.ru/scripts/XML_daily.asp?date_req=$formattedDate";
+        $token = DB::table('personal_access_tokens')
+            ->where('tokenable_id', Auth::id())
+            ->value('token');
 
-        $response = Http::get($url);
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$token}"
+        ])->get($url);
 
         if (!$response) {
             return response()->json(['error' => 'Data not found'], 404);
