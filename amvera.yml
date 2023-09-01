@@ -8,4 +8,4 @@ build:
   args: -Dserver.port=80 -Pproduction
 
 run:
-  jarName: bag-end.jar
+  jarName: 8080
