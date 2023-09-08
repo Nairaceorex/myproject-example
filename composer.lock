@@ -6864,6 +6864,7 @@
         },
         {
             "name": "laravel/pint",
+<<<<<<< HEAD
             "version": "v1.13.1",
             "source": {
                 "type": "git",
@@ -6874,6 +6875,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/pint/zipball/22f204242d68095b3ba7dab5d3ef0240454a4652",
                 "reference": "22f204242d68095b3ba7dab5d3ef0240454a4652",
+=======
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/pint.git",
+                "reference": "08bcf51e520a5e5aea458fc600ac4869f6934a66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/08bcf51e520a5e5aea458fc600ac4869f6934a66",
+                "reference": "08bcf51e520a5e5aea458fc600ac4869f6934a66",
+>>>>>>> main
                 "shasum": ""
             },
             "require": {
