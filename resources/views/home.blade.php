@@ -19,9 +19,9 @@
         <div>
             @csrf
             <label for="token">Access Token</label>
-            <input type="text" name="token" value="{{ $token }}" readonly>
+            <input type="text" name="token" value="{{ $token ?? 'update your token'}}" readonly>
         </div>
-        <form action="/update-token" method="POST">
+        <form action="/refresh" method="POST">
             @csrf
             <button type="submit">Update Token</button>
         </form>
@@ -45,7 +45,7 @@
         <h2>Login</h2>
         <form action="/login" method="POST">
             @csrf
-            <input name="loginname" type="text" placeholder="name">
+            <input name="loginemail" type="text" placeholder="email">
             <input name="loginpassword" type="password" placeholder="password">
             <button>Log in</button>
         </form>
