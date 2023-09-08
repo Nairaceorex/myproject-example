@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'passport',
+            'driver' => 'sanctum',
             'provider' => 'users',
         ],
     ],
@@ -102,6 +102,12 @@ return [
             'throttle' => 60,
         ],
     ],
+    
+    /*'passport' => [
+        'tokens' => [
+            'length' => 64,
+        ],
+],*/
 
     /*
     |--------------------------------------------------------------------------

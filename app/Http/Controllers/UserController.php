@@ -8,31 +8,24 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Models\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
     public function login(Request $request){
-        
 
         $incomingFields = $request->validate([
-            'loginname'=>'required',
+            'loginemail'=>'required',
             'loginpassword'=>'required'
         ]);
-        /*if (auth()->check()) {
-            return redirect('/');
-        }*/
-        if (auth()->attempt(['name'=>$incomingFields['loginname'], 'password'=>$incomingFields['loginpassword']])){
-            $request->session()->regenerate();
-            /*$user = User::find(Auth::id());
-            $token = $user->tokens()->first();*/
-            
-        }
         
-
-        $token = DB::table('personal_access_tokens')
-            ->where('tokenable_id', Auth::id())
-            ->value('token');
-        return view('home', ['token' => $token]);
+        if (auth()->attempt(['email'=>$incomingFields['loginemail'], 'password'=>$incomingFields['loginpassword']])){
+            $request->session()->regenerate();
+            $user = Auth::user(); 
+            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            return view('home', ['token' => $success['token']]);
+        }
+        return response()->json(['error'=>'Unauthorised'], 401);
     }
     public function logout(){
         auth()->logout();
@@ -46,26 +39,19 @@ class UserController extends Controller
         ]);
         $incomingFields['password'] = bcrypt($incomingFields['password']);
         $user = User::create($incomingFields);
-        $user->createToken('API Token');
-        $token = DB::table('personal_access_tokens')
-            ->where('tokenable_id', Auth::id())
-            ->value('token');
+        $success['token'] =  $user->createToken('MyApp')->plainTextToken; 
         Auth::login($user);
-        return view('home', ['token' => $token]);
-        
+        return view('home', ['token' => $success['token']]);
     }   
-
-    public function updateToken(Request $request)
-{
-    $user = User::find(Auth::id());
-    #$accessToken = $user->createToken('API Token');
-    $token = Str::random(64);
-
-    // Update the token value in the personal_access_tokens table
-    DB::table('personal_access_tokens')
-        ->where('tokenable_id', $user->id)
-        ->update(['token' => $token]);
-
-    return view('home', ['token' => $token]);
-}
+    
+    public function refresh(Request $request)
+    {
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $user = Auth::user(); 
+        $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+        return view('home',['token' => $success['token']]);
+    }
+    
 }
